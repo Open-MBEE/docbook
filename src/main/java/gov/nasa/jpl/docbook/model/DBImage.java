@@ -41,6 +41,7 @@ package gov.nasa.jpl.docbook.model;
 public class DBImage extends DocumentElement {
 
     //private Diagram image;
+	private String filePath;
     private String  caption;
     private boolean gennew;
     private boolean doNotShow;
@@ -62,6 +63,10 @@ public class DBImage extends DocumentElement {
         caption = cap;
     }
 
+    public void setFilePath(String filePath){
+    	this.filePath = filePath;
+    }
+    
     public void setGennew(boolean b) {
         gennew = b;
     }
@@ -76,6 +81,10 @@ public class DBImage extends DocumentElement {
 
     public String getCaption() {
         return caption;
+    }
+
+    public String getFilePath(){
+    	return this.filePath;
     }
 
     public boolean isGennew() {

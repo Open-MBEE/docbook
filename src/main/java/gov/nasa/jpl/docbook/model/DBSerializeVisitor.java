@@ -176,16 +176,17 @@ public class DBSerializeVisitor extends DBAbstractVisitor {
             } else {
                 out.append("\n<address><alt>36px</alt></address>\n</org></collab>");
             }
-
+        
             for (int index = 0; index < book.getAuthor().size(); index++) {
                 if (book.getAuthor().get(index) != null && !book.getAuthor().get(index).equals("")) {
-                    String[] tokens = book.getAuthor().get(index).split(delims);
+                    String[] tokens = book.getAuthor().get(index).split(delims,-1);
                     out.append("\n<author><personname><firstname>" + tokens[0] + "</firstname><surname>"
                             + tokens[1] + "</surname></personname><affiliation>" + "<jobtitle>" + tokens[2]
                             + "</jobtitle><org><orgname>" + tokens[3] + "</orgname><orgdiv>" + tokens[4]
                             + "</orgdiv></org></affiliation></author>");
                 }
             }
+
             for (int index = 0; index < book.getApprover().size(); index++) {
                 if (book.getApprover().get(index) != null && !book.getApprover().get(index).equals("")) {
                     String[] tokens = book.getApprover().get(index).split(delims);
@@ -205,6 +206,7 @@ public class DBSerializeVisitor extends DBAbstractVisitor {
                             + "</orgdiv></org></affiliation></othercredit>");
                 }
             }
+
             for (int index = 0; index < book.getRevisionHistory().size(); index++) {
                 if (book.getRevisionHistory().get(index) != null
                         && !book.getRevisionHistory().get(index).equals("")) {
@@ -216,6 +218,7 @@ public class DBSerializeVisitor extends DBAbstractVisitor {
                             + "</revremark></revision></revhistory>");
                 }
             }
+        
             for (int index = 0; index < book.getCollaboratorEmail().size(); index++) {
                 if (book.getCollaboratorEmail().get(index) != null
                         && !book.getCollaboratorEmail().get(index).equals("")) {
@@ -224,6 +227,7 @@ public class DBSerializeVisitor extends DBAbstractVisitor {
                 }
             }
         }
+
         // out.append("<productnumber>" + book.getDocumentID() +
         // "</productnumber>");
         /*
@@ -285,6 +289,33 @@ public class DBSerializeVisitor extends DBAbstractVisitor {
 
     @Override
     public void visit(DBImage image) {
+    	 if (image.isDoNotShow())
+             return;
+         String id = "";
+         if (image.getId() != null && !ids.contains(image.getId())) {
+             id = " xml:id=\"" + image.getId() + "\"";
+             ids.add(image.getId());
+         }
+         out.append("<figure" + id + " pgwide=\"1\">");
+         out.append("<title>" + image.getTitle() + "</title>\n");
+         out.append("<mediaobject><imageobject role=\"fo\">\n");
+         String filePath = image.getFilePath();
+         out.append("<imagedata fileref=\"" + filePath + "\" format=\"SVG\" scalefit=\"1\" width=\"100%\"/>\n");
+         //out.append("</imageobject><imageobject role=\"html\"><imagedata fileref=\"" + filePath.replaceAll(".svg", ".png") + "\"/></imageobject>\n");
+         out.append("</imageobject><imageobject role=\"html\"><imagedata fileref=\"" + filePath + "\"/></imageobject>\n");
+         
+         //String filename = s.get(0);
+         //String scale = s.get(1);
+         //if (scale.equals("true"))
+             //out.append("<imagedata fileref=\"" + filename
+             //        + "\" format=\"SVG\" scalefit=\"1\" width=\"100%\"/>\n");
+         //else
+             //out.append("<imagedata fileref=\"" + filename + "\" format=\"SVG\"/>\n");
+         //out.append("</imageobject><imageobject role=\"html\"><imagedata fileref=\""
+         //        + filename.replaceAll(".svg", ".png") + "\"/></imageobject>\n");
+         if (image.getCaption() != null && !image.getCaption().equals(""))
+             out.append("<caption>" + image.getCaption() + "</caption>\n");
+         out.append("</mediaobject></figure>\n");
         /*if (ps != null && ps.isCancel())
             return;
 

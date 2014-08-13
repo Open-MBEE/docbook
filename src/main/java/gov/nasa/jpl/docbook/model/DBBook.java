@@ -28,6 +28,7 @@
  ******************************************************************************/
 package gov.nasa.jpl.docbook.model;
 
+import java.util.Collections;
 import java.util.List;
 
 //import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
@@ -70,6 +71,11 @@ public class DBBook extends DBHasContent {
 
     public DBBook() {
         subtitle = "";
+        this.CollaboratorEmail = Collections.emptyList();
+        this.Author = Collections.emptyList();
+        this.Approver = Collections.emptyList();
+        this.Concurrance = Collections.emptyList();
+        this.RevisionHistory = Collections.emptyList();
     }
 
     public boolean getIndex() {
